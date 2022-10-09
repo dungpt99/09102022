@@ -1,12 +1,14 @@
+<<<<<<< Updated upstream
 import { LikeEntity } from "src/modules/like/entities/like.entity";
 import { UserEntity } from "src/modules/user/entities/user.entity";
 import { ImageEntity } from "../../images/entities/image.entity";
+=======
+import { UserEntity } from "src/modules/user/entities/user.entity";
+>>>>>>> Stashed changes
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -16,17 +18,38 @@ export class PostEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ name: "desc", type: "varchar", length: 500, default: null })
-  desc: string;
+  // @Column({ name: "model", type: "varchar", length: 20 })
+  // model: string;
 
-  @OneToMany(() => ImageEntity, (image) => image.post)
-  images: ImageEntity[];
+  // @Column({ name: "price", type: "varchar", length: 20 })
+  // price: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.posts)
-  user: UserEntity;
+  // @Column({ name: "category", type: "varchar", length: 20 })
+  // category: string;
 
-  @OneToMany(() => LikeEntity, (like) => like.post)
-  likes: LikeEntity[];
+  // @Column({ name: "status", type: "varchar", length: 20 })
+  // status: string;
+
+  // @Column({ name: "description", type: "varchar", length: 500 })
+  // description: string;
+
+  @Column({ name: "name", type: "varchar", length: 50 })
+  name: string;
+
+  @Column({ name: "img_url", type: "varchar", length: 50 })
+  img_url: string;
+
+  @Column({ name: "img_title", type: "varchar", length: 50 })
+  img_title: string;
+
+  @Column({ name: "title", type: "varchar", length: 50 })
+  title: string;
+
+  @Column({ name: "content", type: "varchar", length: 500 })
+  content: string;
+
+  @Column({ name: "author", type: "varchar", length: 50 })
+  author: string;
 
   @CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;

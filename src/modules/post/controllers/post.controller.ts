@@ -17,12 +17,14 @@ import { FilesInterceptor } from "@nestjs/platform-express";
 import { CreatePostDto } from "../dto/create-post.dto";
 import { PostEntity } from "../entities/post.entity";
 import { PostService } from "../services/post.service";
-import { ApiConsumes } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { ResponsePagination } from "src/common/dto/response-pagination.dto";
 import { GetPostsDto } from "../dto/list-post.dto";
 import { UpdatePostDto } from "../dto/update-post.dto";
 
 @Controller("posts")
+@ApiBearerAuth()
+@ApiTags('Post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
@@ -32,9 +34,8 @@ export class PostController {
   public async create(
     @Body() createPostDto: CreatePostDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
-    @Req() req
   ): Promise<PostEntity> {
-    return await this.postService.create(createPostDto, files, req.user.userId);
+    return await this.postService.create(createPostDto, files);
   }
 
   @Get()
@@ -42,16 +43,6 @@ export class PostController {
     @Query() getPostsDto: GetPostsDto
   ): Promise<ResponsePagination<PostEntity>> {
     return await this.postService.findAll(getPostsDto);
-  }
-
-  @Get("/profile")
-  async getByUser(@Request() Req): Promise<PostEntity[]> {
-    return this.postService.profile(Req.user.userId);
-  }
-
-  @Get("/timeline")
-  public async getTimeline(@Request() Req): Promise<any> {
-    return this.postService.getTimeline(Req.user.userId);
   }
 
   @Get("/:id")
@@ -67,12 +58,12 @@ export class PostController {
     @Body() updatePostDto: UpdatePostDto,
     @Param("id", ParseUUIDPipe) id: string,
     @UploadedFiles() files: Array<Express.Multer.File>
-  ): Promise<PostEntity> {
-    return this.postService.update(id, updatePostDto, files);
+  ): Promise<any> {
+    return 'this.postService.update(id, updatePostDto, files)';
   }
 
   @Delete(":id")
   async delete(@Param("id", ParseUUIDPipe) id: string) {
-    return this.postService.delete(id);
+    return 'this.postService.delete(id)';
   }
 }

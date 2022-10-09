@@ -61,9 +61,9 @@ export class UserService {
     }
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
+  async findByUsername(Username: string): Promise<UserEntity> {
     try {
-      const getUser = await this.userRepository.findOne({ where: { email } });
+      const getUser = await this.userRepository.findOne({username: Username});
       if (!getUser) {
         throw new NotFoundException();
       }
@@ -75,12 +75,15 @@ export class UserService {
   }
 
   async update(id: string, body: UpdateUserDto): Promise<UserEntity> {
-    let getUser = await this.userRepository.findOne(id);
-    if (!getUser) {
-      throw new NotFoundException();
-    }
-    getUser = CommonUpdate(getUser, body);
     try {
+      let getUser = await this.userRepository.findOne(id);
+      if (!getUser) {
+        throw new NotFoundException();
+      }
+      // getUser = CommonUpdate(getUser, body);
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(body.password, salt);
+      getUser.password = hashPassword
       await this.userRepository.save(getUser);
       return await this.userRepository.findOne(id);
     } catch (error) {

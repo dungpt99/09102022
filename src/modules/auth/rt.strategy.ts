@@ -3,16 +3,16 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class atStrategy extends PassportStrategy(Strategy) {
+export class rtStrategy extends PassportStrategy(Strategy, "rt-jwt") {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.ACCESS_TOKEN,
+      secretOrKey: process.env.REFRESH_TOKEN,
     });
   }
 
   async validate(payload: any) {
-    return { userId: payload.id, email: payload.email, name: payload.name };
+    return { userId: payload.sub, email: payload.email };
   }
 }

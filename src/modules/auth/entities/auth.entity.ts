@@ -8,16 +8,16 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity({ name: "relations" })
-export class RelationEntity {
+@Entity({ name: "tokens" })
+export class TokenEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.relations)
-  follow: UserEntity;
+  @Column({ name: "token", length: 300, type: "varchar" })
+  token: string;
 
-  @Column({ name: "userId", type: "varchar" })
-  userId: string;
+  @ManyToOne(() => UserEntity, (user) => user.tokens)
+  user: UserEntity;
 
   @CreateDateColumn({ type: "timestamp with time zone" })
   createdAt: Date;
