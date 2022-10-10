@@ -8,12 +8,13 @@ export class PostRepository extends Repository<PostEntity> {
   async getPosts(params: GetPostsDto): Promise<ResponsePagination<PostEntity>> {
     const posts = this.createQueryBuilder("posts")
       .where("posts.status = :status", { status: true })
-      .leftJoinAndSelect("posts.images", "images")
-      .leftJoinAndSelect("posts.user", "user");
     if (params.search) {
-      posts.andWhere("users.desc ilike :desc", {
-        desc: `%${params.search}%`,
-      });
+      // posts.andWhere("users.desc ilike :desc", {
+      //   desc: `%${params.search}%`,
+      // });
+    }
+    if (params.order) {
+      posts.orderBy("posts.createdAt", params.order)
     }
     return CommonPagination(params, posts);
   }

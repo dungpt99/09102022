@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { OrderBy } from "src/common/constants/common.constants";
 import { CommonPaginationDto } from "src/common/dto/pagination.dto";
 
 export class GetPostsDto extends CommonPaginationDto {
-  @ApiProperty({ required: false })
-  order?: string;
+  @ApiProperty({ enum: OrderBy, default: OrderBy.ASC, required: false })
+  order?: OrderBy.ASC;
 }

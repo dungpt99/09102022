@@ -6,3 +6,8 @@ export enum DefaultPagination {
 export const defaultNameLength = 30;
 
 export const commonRadix = 10;
+
+export enum OrderBy{
+  ASC = 'ASC',
+  DESC = 'DESC'
+}

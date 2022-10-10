@@ -10,9 +10,8 @@ export class CreatePostDto {
   @IsNotEmpty()
   title: string;
 
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  img_url: string;
+  @ApiProperty({ required: true, type: String, format: "binary" })
+  file: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

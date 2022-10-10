@@ -45,8 +45,8 @@ export class AuthService {
     return token;
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.findByEmail(email);
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.userService.findByUsername(username);
 
     if (user) {
       const match = await bcrypt.compare(password, user.password);
@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { name: user.name, email: user.email };
+    const payload = { id: user.id, username: user.username };
     const { accessToken, refreshToken } = await this.getToken(payload);
     try {
       const tokenModel = new TokenEntity();
@@ -82,7 +82,7 @@ export class AuthService {
 
     if (token) {
       const user = await this.userService.findById(userId);
-      const payload = { email: user.email, sub: user.id };
+      const payload = { username: user.username, sub: user.id };
       const { accessToken, refreshToken } = await this.getToken(payload);
       token.token = refreshToken;
       await this.authRepository.save(token);

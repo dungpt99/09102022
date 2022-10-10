@@ -1,10 +1,4 @@
-<<<<<<< Updated upstream
-import { LikeEntity } from "src/modules/like/entities/like.entity";
 import { UserEntity } from "src/modules/user/entities/user.entity";
-import { ImageEntity } from "../../images/entities/image.entity";
-=======
-import { UserEntity } from "src/modules/user/entities/user.entity";
->>>>>>> Stashed changes
 import {
   Column,
   CreateDateColumn,
@@ -36,7 +30,7 @@ export class PostEntity {
   @Column({ name: "name", type: "varchar", length: 50 })
   name: string;
 
-  @Column({ name: "img_url", type: "varchar", length: 50 })
+  @Column({ name: "img_url", type: "varchar", length: 100 })
   img_url: string;
 
   @Column({ name: "img_title", type: "varchar", length: 50 })
