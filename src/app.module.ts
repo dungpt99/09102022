@@ -8,12 +8,14 @@ import { APP_GUARD } from "@nestjs/core";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { AuthModule } from "./modules/Auth/auth.module";
+import { ItemModule } from "./modules/item/item.module";
 @Module({
 	imports: [
 		TypeOrmModule.forRoot(typeOrmConfig),
 		AuthModule,
 		UserModule,
 		PostModule,
+		ItemModule,
 		ServeStaticModule.forRoot({
 			rootPath: join(__dirname, "..", "public"),
 		}),

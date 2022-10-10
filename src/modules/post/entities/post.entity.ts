@@ -1,56 +1,41 @@
 import { UserEntity } from "src/modules/user/entities/user.entity";
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+	Column,
+	CreateDateColumn,
+	Entity,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
 } from "typeorm";
 
 @Entity({ name: "posts" })
 export class PostEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+	@PrimaryGeneratedColumn("uuid")
+	id: string;
 
-  // @Column({ name: "model", type: "varchar", length: 20 })
-  // model: string;
+	@Column({ name: "name", type: "varchar", length: 50 })
+	name: string;
 
-  // @Column({ name: "price", type: "varchar", length: 20 })
-  // price: string;
+	@Column({ name: "img_url", type: "varchar", length: 100 })
+	img_url: string;
 
-  // @Column({ name: "category", type: "varchar", length: 20 })
-  // category: string;
+	@Column({ name: "img_title", type: "varchar", length: 50 })
+	img_title: string;
 
-  // @Column({ name: "status", type: "varchar", length: 20 })
-  // status: string;
+	@Column({ name: "title", type: "varchar", length: 50 })
+	title: string;
 
-  // @Column({ name: "description", type: "varchar", length: 500 })
-  // description: string;
+	@Column({ name: "content", type: "varchar", length: 500 })
+	content: string;
 
-  @Column({ name: "name", type: "varchar", length: 50 })
-  name: string;
+	@Column({ name: "author", type: "varchar", length: 50 })
+	author: string;
 
-  @Column({ name: "img_url", type: "varchar", length: 100 })
-  img_url: string;
+	@CreateDateColumn({ type: "timestamp with time zone" })
+	createdAt: Date;
 
-  @Column({ name: "img_title", type: "varchar", length: 50 })
-  img_title: string;
+	@UpdateDateColumn({ type: "timestamp with time zone" })
+	updatedAt: Date;
 
-  @Column({ name: "title", type: "varchar", length: 50 })
-  title: string;
-
-  @Column({ name: "content", type: "varchar", length: 500 })
-  content: string;
-
-  @Column({ name: "author", type: "varchar", length: 50 })
-  author: string;
-
-  @CreateDateColumn({ type: "timestamp with time zone" })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: "timestamp with time zone" })
-  updatedAt: Date;
-
-  @Column({ name: "status", type: "boolean", default: true })
-  status: boolean;
+	@Column({ name: "status", type: "boolean", default: true })
+	status: boolean;
 }
