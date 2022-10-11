@@ -21,8 +21,8 @@ export class ItemEntity {
 	@Column({ name: "category", type: "varchar", length: 20 })
 	category: string;
 
-	@Column({ name: "status", type: "varchar", length: 20 })
-	status: string;
+	@Column({ name: "status", type: "boolean", default: true })
+	status: boolean;
 
 	@Column({ name: "description", type: "varchar", length: 500 })
 	description: string;

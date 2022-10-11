@@ -4,24 +4,23 @@ import { IsNotEmpty } from "class-validator";
 export class CreateItemDto {
 	@ApiProperty({ required: true })
 	@IsNotEmpty()
-	name: string;
+	model: string;
 
 	@ApiProperty({ required: true })
 	@IsNotEmpty()
-	title: string;
-
-	@ApiProperty({ required: true, type: Array, format: "binary" })
-	files: [string];
+	price: string;
 
 	@ApiProperty({ required: true })
 	@IsNotEmpty()
-	img_title: string;
+	category: string;
 
 	@ApiProperty({ required: true })
 	@IsNotEmpty()
-	content: string;
+	description: string;
 
-	@ApiProperty({ required: true })
-	@IsNotEmpty()
-	author: string;
+	@ApiProperty({ required: true, type: String, format: "binary" })
+	img_item: string;
+
+	@ApiProperty({ required: true, type: String, format: "binary" })
+	img_thumbnail: string;
 }

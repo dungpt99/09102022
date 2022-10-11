@@ -4,24 +4,23 @@ import { IsOptional } from "class-validator";
 export class UpdateItemDto {
 	@ApiProperty({ required: false })
 	@IsOptional()
-	name: string;
+	model: string;
 
 	@ApiProperty({ required: false })
 	@IsOptional()
-	title: string;
+	price: string;
+
+	@ApiProperty({ required: false })
+	@IsOptional()
+	category: string;
+
+	@ApiProperty({ required: false })
+	@IsOptional()
+	description: string;
 
 	@ApiProperty({ required: false, type: String, format: "binary" })
-	file: string;
+	img_item: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	img_title: string;
-
-	@ApiProperty({ required: false })
-	@IsOptional()
-	content: string;
-
-	@ApiProperty({ required: false })
-	@IsOptional()
-	author: string;
+	@ApiProperty({ required: false, type: String, format: "binary" })
+	img_thumbnail: string;
 }

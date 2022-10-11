@@ -5,7 +5,7 @@ import { GetItemsDto } from "../dto/list-item.dto";
 import { ItemEntity } from "../entities/item.entity";
 @EntityRepository(ItemEntity)
 export class ItemRepository extends Repository<ItemEntity> {
-	async getPosts(params: GetItemsDto): Promise<ResponsePagination<ItemEntity>> {
+	async getItems(params: GetItemsDto): Promise<ResponsePagination<ItemEntity>> {
 		const items = this.createQueryBuilder("items").where(
 			"items.status = :status",
 			{ status: true }
@@ -16,7 +16,7 @@ export class ItemRepository extends Repository<ItemEntity> {
 			// });
 		}
 		if (params.order) {
-			items.orderBy("posts.createdAt", params.order);
+			items.orderBy("items.createdAt", params.order);
 		}
 		return CommonPagination(params, items);
 	}
