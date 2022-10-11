@@ -8,8 +8,11 @@ export function commonDelete(array: any) {
 		if (e?.img_url) {
 			fs.unlinkSync(`public/uploads/${e.img_url}`);
 		}
-		if (e?.url) {
-			fs.unlinkSync(`public/uploads/${e.url}`);
+		if (e?.img_item) {
+			fs.unlinkSync(`public/uploads/${e.img_item}`);
+		}
+		if (e?.img_thumbnail) {
+			fs.unlinkSync(`public/uploads/${e.img_thumbnail}`);
 		}
 	});
 }

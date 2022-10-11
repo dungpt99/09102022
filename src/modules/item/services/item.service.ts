@@ -24,60 +24,73 @@ export class ItemService {
 				...getItemModel,
 				...createItemDto,
 			};
+			newItem.img_item = image.img_item[0].filename;
+			newItem.img_thumbnail = image.img_thumbnail[0].filename;
 			return await this.itemRepository.save(newItem);
 		} catch (error) {
-			commonDelete(image);
+			commonDelete(image.img_item);
+			commonDelete(image.img_thumbnail);
 			this.logger.log(error);
 			throw error;
 		}
 	}
 
-	// async update(id: string, body: UpdatePostDto, image: any) {
-	// 	try {
-	// 		let getPost = await this.postRepository.findOne({ id, status: true });
-	// 		if (image) {
-	// 			commonDelete([getPost]);
-	// 			getPost.img_url = image?.filename;
-	// 		}
-	// 		CommonUpdate(getPost, body);
-	// 		return await this.postRepository.save(getPost);
-	// 	} catch (error) {
-	// 		throw error;
-	// 	}
-	// }
+	async update(id: string, body: UpdateItemDto, image: any) {
+		try {
+			let getItem = await this.itemRepository.findOne({ id, status: true });
+			if (image.img_item) {
+				const getItemImg = getItem.img_thumbnail;
+				delete getItem.img_thumbnail;
+				commonDelete([getItem]);
+				getItem.img_thumbnail = getItemImg;
+				getItem.img_item = image.img_item[0].filename;
+			}
+			if (image.img_thumbnail) {
+				const getItemImg = getItem.img_item;
+				delete getItem.img_item;
+				commonDelete([getItem]);
+				getItem.img_item = getItemImg;
+				getItem.img_thumbnail = image.img_thumbnail[0].filename;
+			}
+			CommonUpdate(getItem, body);
+			return await this.itemRepository.save(getItem);
+		} catch (error) {
+			throw error;
+		}
+	}
 
-	// async findAll(params: GetPostsDto): Promise<ResponsePagination<ItemEntity>> {
-	// 	try {
-	// 		return await this.postRepository.getPosts(params);
-	// 	} catch (error) {
-	// 		this.logger.log(error.toString());
-	// 		throw error;
-	// 	}
-	// }
+	async findAll(params: GetItemsDto): Promise<ResponsePagination<ItemEntity>> {
+		try {
+			return await this.itemRepository.getItems(params);
+		} catch (error) {
+			this.logger.log(error.toString());
+			throw error;
+		}
+	}
 
-	// async findById(id: string): Promise<ItemEntity> {
-	// 	try {
-	// 		const getPost = await this.postRepository.findOne({ id, status: true });
-	// 		if (!getPost) {
-	// 			throw new NotFoundException();
-	// 		}
-	// 		return getPost;
-	// 	} catch (error) {
-	// 		this.logger.log(error.toString());
-	// 		throw error;
-	// 	}
-	// }
+	async findById(id: string): Promise<ItemEntity> {
+		try {
+			const getItem = await this.itemRepository.findOne({ id, status: true });
+			if (!getItem) {
+				throw new NotFoundException();
+			}
+			return getItem;
+		} catch (error) {
+			this.logger.log(error.toString());
+			throw error;
+		}
+	}
 
-	// async delete(id: string) {
-	// 	try {
-	// 		let getPost = await this.postRepository.findOne({ id });
-	// 		if (!getPost) {
-	// 			throw new NotFoundException();
-	// 		}
-	// 		getPost.status = false;
-	// 		return await this.postRepository.save(getPost);
-	// 	} catch (error) {
-	// 		throw error;
-	// 	}
-	// }
+	async delete(id: string) {
+		try {
+			let getItem = await this.itemRepository.findOne({ id, status: true });
+			if (!getItem) {
+				throw new NotFoundException();
+			}
+			getItem.status = false;
+			return await this.itemRepository.save(getItem);
+		} catch (error) {
+			throw error;
+		}
+	}
 }

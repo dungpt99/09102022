@@ -14,7 +14,11 @@ import {
 	UploadedFiles,
 	UseInterceptors,
 } from "@nestjs/common";
-import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import {
+	FileFieldsInterceptor,
+	FileInterceptor,
+	FilesInterceptor,
+} from "@nestjs/platform-express";
 import { CreateItemDto } from "../dto/create-item.dto";
 import { ItemEntity } from "../entities/item.entity";
 import { ItemService } from "../services/item.service";
@@ -31,7 +35,12 @@ export class ItemController {
 
 	@Post("")
 	@ApiConsumes("multipart/form-data")
-	@UseInterceptors(FilesInterceptor("files"))
+	@UseInterceptors(
+		FileFieldsInterceptor([
+			{ name: "img_item", maxCount: 1 },
+			{ name: "img_thumbnail", maxCount: 1 },
+		])
+	)
 	public async create(
 		@Body() createItemDto: CreateItemDto,
 		@UploadedFiles()
@@ -39,40 +48,46 @@ export class ItemController {
 			img_item?: Express.Multer.File[];
 			img_thumbnail?: Express.Multer.File[];
 		}
-	): Promise<any> {
-		console.log("====================================");
-		console.log(files);
-		console.log("====================================");
-		// return await this.itemService.create(createItemDto, files);
+	): Promise<ItemEntity> {
+		return await this.itemService.create(createItemDto, files);
 	}
 
-	// @Get()
-	// public async findAll(
-	// 	@Query() getPostsDto: GetPostsDto
-	// ): Promise<ResponsePagination<ItemEntity>> {
-	// 	return await this.itemService.findAll(getPostsDto);
-	// }
+	@Get()
+	public async findAll(
+		@Query() getItemsDto: GetItemsDto
+	): Promise<ResponsePagination<ItemEntity>> {
+		return await this.itemService.findAll(getItemsDto);
+	}
 
-	// @Get("/:id")
-	// public async findOne(
-	// 	@Param("id", ParseUUIDPipe) id: string
-	// ): Promise<ItemEntity> {
-	// 	return await this.itemService.findById(id);
-	// }
+	@Get("/:id")
+	public async findOne(
+		@Param("id", ParseUUIDPipe) id: string
+	): Promise<ItemEntity> {
+		return await this.itemService.findById(id);
+	}
 
-	// @Put(":id")
-	// @ApiConsumes("multipart/form-data")
-	// @UseInterceptors(FileInterceptor("file"))
-	// async update(
-	// 	@Body() updatePostDto: UpdatePostDto,
-	// 	@Param("id", ParseUUIDPipe) id: string,
-	// 	@UploadedFile() file: Express.Multer.File
-	// ): Promise<any> {
-	// 	return await this.itemService.update(id, updatePostDto, file);
-	// }
+	@Put(":id")
+	@ApiConsumes("multipart/form-data")
+	@UseInterceptors(
+		FileFieldsInterceptor([
+			{ name: "img_item", maxCount: 1 },
+			{ name: "img_thumbnail", maxCount: 1 },
+		])
+	)
+	async update(
+		@Body() updateItemDto: UpdateItemDto,
+		@Param("id", ParseUUIDPipe) id: string,
+		@UploadedFiles()
+		files: {
+			img_item?: Express.Multer.File[];
+			img_thumbnail?: Express.Multer.File[];
+		}
+	): Promise<ItemEntity> {
+		return await this.itemService.update(id, updateItemDto, files);
+	}
 
-	// @Delete(":id")
-	// async delete(@Param("id", ParseUUIDPipe) id: string) {
-	// 	return await this.itemService.delete(id);
-	// }
+	@Delete(":id")
+	async delete(@Param("id", ParseUUIDPipe) id: string) {
+		return await this.itemService.delete(id);
+	}
 }
