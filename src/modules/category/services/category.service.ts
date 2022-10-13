@@ -57,10 +57,13 @@ export class CategoryService {
 
 	async findById(id: string): Promise<CategoryEntity> {
 		try {
-			const getCategory = await this.categoryRepository.findOne({
-				id,
-				status: true,
-			});
+			const getCategory = await this.categoryRepository
+				.createQueryBuilder("category")
+				.leftJoinAndSelect("category.items", "items")
+				.where("category.id = :id", { id })
+				.andWhere("category.status = :status", { status: true })
+				.andWhere("items.status = :status", { status: true })
+				.getOne();
 			if (!getCategory) {
 				throw new NotFoundException();
 			}

@@ -62,8 +62,8 @@ export class CategoryController {
 		return await this.categoryService.update(id, updateCategoryDto);
 	}
 
-	// @Delete(":id")
-	// async delete(@Param("id", ParseUUIDPipe) id: string) {
-	// 	return await this.itemService.delete(id);
-	// }
+	@Delete(":id")
+	async delete(@Param("id", ParseUUIDPipe) id: string) {
+		return await this.categoryService.delete(id);
+	}
 }
