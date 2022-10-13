@@ -1,12 +1,17 @@
-import { UserEntity } from "src/modules/user/entities/user.entity";
+import { CategoryEntity } from "src/modules/category/entities/category.entity";
 import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from "typeorm";
 
+export enum Type {
+	BEST_SELLER = "best seller",
+	NEW_PRODUCT = "new product",
+}
 @Entity({ name: "items" })
 export class ItemEntity {
 	@PrimaryGeneratedColumn("uuid")
@@ -18,8 +23,15 @@ export class ItemEntity {
 	@Column({ name: "price", type: "varchar", length: 20 })
 	price: string;
 
-	@Column({ name: "category", type: "varchar", length: 20 })
-	category: string;
+	@ManyToOne(() => CategoryEntity, (category) => category.items)
+	category: CategoryEntity;
+
+	@Column({
+		type: "enum",
+		enum: Type,
+		default: Type.NEW_PRODUCT,
+	})
+	type: Type;
 
 	@Column({ name: "status", type: "boolean", default: true })
 	status: boolean;

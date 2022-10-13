@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
+import { Type } from "../entities/item.entity";
 
 export class CreateItemDto {
 	@ApiProperty({ required: true })
@@ -12,7 +13,11 @@ export class CreateItemDto {
 
 	@ApiProperty({ required: true })
 	@IsNotEmpty()
-	category: string;
+	categoryId: string;
+
+	@ApiProperty({ enum: Type })
+	@IsNotEmpty()
+	type: Type;
 
 	@ApiProperty({ required: true })
 	@IsNotEmpty()
