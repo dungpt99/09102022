@@ -6,10 +6,9 @@ import { ItemEntity } from "../entities/item.entity";
 @EntityRepository(ItemEntity)
 export class ItemRepository extends Repository<ItemEntity> {
 	async getItems(params: GetItemsDto): Promise<ResponsePagination<ItemEntity>> {
-		const items = this.createQueryBuilder("items").where(
-			"items.status = :status",
-			{ status: true }
-		);
+		const items = this.createQueryBuilder("items")
+			.leftJoinAndSelect("items.category", "category")
+			.where("items.status = :status", { status: true });
 		if (params.search) {
 			// posts.andWhere("users.desc ilike :desc", {
 			//   desc: `%${params.search}%`,

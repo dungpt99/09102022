@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { MulterModule } from "@nestjs/platform-express";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { MulterConfigService } from "src/config/multer/multer";
-import { UserModule } from "../user/user.module";
+import { CategoryModule } from "../category/category.module";
 import { ItemController } from "./controllers/item.controller";
 import { ItemRepository } from "./repositories/item.repository";
 import { ItemService } from "./services/item.service";
@@ -10,7 +10,7 @@ import { ItemService } from "./services/item.service";
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([ItemRepository]),
-		UserModule,
+		CategoryModule,
 		MulterModule.registerAsync({
 			useClass: MulterConfigService,
 		}),

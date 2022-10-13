@@ -9,6 +9,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { AuthModule } from "./modules/Auth/auth.module";
 import { ItemModule } from "./modules/item/item.module";
+import { CategoryModule } from "./modules/category/category.module";
 @Module({
 	imports: [
 		TypeOrmModule.forRoot(typeOrmConfig),
@@ -16,6 +17,7 @@ import { ItemModule } from "./modules/item/item.module";
 		UserModule,
 		PostModule,
 		ItemModule,
+		CategoryModule,
 		ServeStaticModule.forRoot({
 			rootPath: join(__dirname, "..", "public"),
 		}),
