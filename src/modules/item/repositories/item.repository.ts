@@ -10,9 +10,9 @@ export class ItemRepository extends Repository<ItemEntity> {
 			.leftJoinAndSelect("items.category", "category")
 			.where("items.status = :status", { status: true });
 		if (params.search) {
-			// posts.andWhere("users.desc ilike :desc", {
-			//   desc: `%${params.search}%`,
-			// });
+			items.andWhere("items.model ilike :model", {
+				model: `%${params.search}%`,
+			});
 		}
 		if (params.order) {
 			items.orderBy("items.createdAt", params.order);

@@ -10,6 +10,7 @@ import { commonDelete } from "src/common/helper/common-delete";
 import { commonFilter } from "src/common/helper/common-filter";
 import { CommonUpdate } from "src/common/helper/common-update";
 import { UserService } from "src/modules/user/services/user.service";
+import { Not } from "typeorm";
 import { CreatePostDto } from "../dto/create-post.dto";
 import { GetPostsDto } from "../dto/list-post.dto";
 import { UpdatePostDto } from "../dto/update-post.dto";
@@ -65,13 +66,18 @@ export class PostService {
 		}
 	}
 
-	async findById(id: string): Promise<PostEntity> {
+	async findById(id: string): Promise<any> {
 		try {
 			const getPost = await this.postRepository.findOne({ id, status: true });
 			if (!getPost) {
 				throw new NotFoundException();
 			}
-			return getPost;
+			const getRelationPosts = await this.postRepository.find({
+				where: { id: Not(id), status: true },
+				order: { createdAt: "DESC" },
+				take: 10,
+			});
+			return { post: getPost, relation: getRelationPosts };
 		} catch (error) {
 			this.logger.log(error.toString());
 			throw error;

@@ -93,10 +93,10 @@ export class ItemService {
 				throw new NotFoundException();
 			}
 			const getRelationItems = await this.itemRepository.find({
-				where: { id: Not(id) },
+				where: { id: Not(id), status: true },
 				relations: ["category"],
 				order: { createdAt: "DESC" },
-				take: 10,
+				take: 1,
 			});
 			return { item: getItem, relation: getRelationItems };
 		} catch (error) {
