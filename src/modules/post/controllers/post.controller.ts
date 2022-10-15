@@ -22,13 +22,14 @@ import { ApiBearerAuth, ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { ResponsePagination } from "src/common/dto/response-pagination.dto";
 import { GetPostsDto } from "../dto/list-post.dto";
 import { UpdatePostDto } from "../dto/update-post.dto";
+import { Public } from "src/modules/Auth/enableAuthPublic";
 
 @Controller("posts")
-@ApiBearerAuth()
 @ApiTags("Post")
 export class PostController {
 	constructor(private readonly postService: PostService) {}
 
+	@ApiBearerAuth()
 	@Post("")
 	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(FileInterceptor("file"))
@@ -39,6 +40,7 @@ export class PostController {
 		return await this.postService.create(createPostDto, file);
 	}
 
+	@Public()
 	@Get()
 	public async findAll(
 		@Query() getPostsDto: GetPostsDto
@@ -46,6 +48,7 @@ export class PostController {
 		return await this.postService.findAll(getPostsDto);
 	}
 
+	@Public()
 	@Get("/:id")
 	public async findOne(
 		@Param("id", ParseUUIDPipe) id: string
@@ -53,6 +56,7 @@ export class PostController {
 		return await this.postService.findById(id);
 	}
 
+	@ApiBearerAuth()
 	@Put(":id")
 	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(FileInterceptor("file"))
@@ -64,6 +68,7 @@ export class PostController {
 		return await this.postService.update(id, updatePostDto, file);
 	}
 
+	@ApiBearerAuth()
 	@Delete(":id")
 	async delete(@Param("id", ParseUUIDPipe) id: string) {
 		return await this.postService.delete(id);

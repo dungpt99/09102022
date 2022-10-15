@@ -26,13 +26,14 @@ import { ApiBearerAuth, ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { ResponsePagination } from "src/common/dto/response-pagination.dto";
 import { GetItemsDto } from "../dto/list-item.dto";
 import { UpdateItemDto } from "../dto/update-item.dto";
+import { Public } from "src/modules/Auth/enableAuthPublic";
 
 @Controller("items")
-@ApiBearerAuth()
 @ApiTags("Item")
 export class ItemController {
 	constructor(private readonly itemService: ItemService) {}
 
+	@ApiBearerAuth()
 	@Post("")
 	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(
@@ -52,6 +53,7 @@ export class ItemController {
 		return await this.itemService.create(createItemDto, files);
 	}
 
+	@Public()
 	@Get()
 	public async findAll(
 		@Query() getItemsDto: GetItemsDto
@@ -59,6 +61,7 @@ export class ItemController {
 		return await this.itemService.findAll(getItemsDto);
 	}
 
+	@Public()
 	@Get("/:id")
 	public async findOne(
 		@Param("id", ParseUUIDPipe) id: string
@@ -66,6 +69,7 @@ export class ItemController {
 		return await this.itemService.findById(id);
 	}
 
+	@ApiBearerAuth()
 	@Put(":id")
 	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(
@@ -86,6 +90,7 @@ export class ItemController {
 		return await this.itemService.update(id, updateItemDto, files);
 	}
 
+	@ApiBearerAuth()
 	@Delete(":id")
 	async delete(@Param("id", ParseUUIDPipe) id: string) {
 		return await this.itemService.delete(id);

@@ -62,7 +62,7 @@ export class CategoryService {
 				.leftJoinAndSelect("category.items", "items")
 				.where("category.id = :id", { id })
 				.andWhere("category.status = :status", { status: true })
-				.andWhere("items.status = :status", { status: true })
+				// .andWhere("items.status = :status", { status: true })
 				.getOne();
 			if (!getCategory) {
 				throw new NotFoundException();

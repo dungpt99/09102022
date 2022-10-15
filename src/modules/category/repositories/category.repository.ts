@@ -10,8 +10,8 @@ export class CategoryRepository extends Repository<CategoryEntity> {
 	): Promise<ResponsePagination<CategoryEntity>> {
 		const categories = this.createQueryBuilder("categories")
 			.leftJoinAndSelect("categories.items", "items")
-			.where("categories.status = :status", { status: true })
-			.andWhere("items.status = :status", { status: true });
+			.where("categories.status = :status", { status: true });
+		// .andWhere("items.status = :status", { status: true });
 		if (params.search) {
 			// posts.andWhere("users.desc ilike :desc", {
 			//   desc: `%${params.search}%`,
