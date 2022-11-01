@@ -10,24 +10,26 @@ import { join } from "path";
 import { AuthModule } from "./modules/Auth/auth.module";
 import { ItemModule } from "./modules/item/item.module";
 import { CategoryModule } from "./modules/category/category.module";
+import { HomeModule } from "./modules/home/home.module";
 @Module({
-	imports: [
-		TypeOrmModule.forRoot(typeOrmConfig),
-		AuthModule,
-		UserModule,
-		PostModule,
-		ItemModule,
-		CategoryModule,
-		ServeStaticModule.forRoot({
-			rootPath: join(__dirname, "..", "public"),
-		}),
-	],
-	controllers: [],
-	providers: [
-		{
-			provide: APP_GUARD,
-			useClass: JwtAuthGuard,
-		},
-	],
+  imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
+    AuthModule,
+    UserModule,
+    PostModule,
+    ItemModule,
+    CategoryModule,
+    HomeModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "public"),
+    }),
+  ],
+  controllers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
