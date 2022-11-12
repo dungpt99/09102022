@@ -8,7 +8,7 @@ export class ItemRepository extends Repository<ItemEntity> {
 	async getItems(params: GetItemsDto): Promise<ResponsePagination<ItemEntity>> {
 		const items = this.createQueryBuilder("items")
 			.leftJoinAndSelect("items.category", "category")
-			.where("items.status = :status", { status: true });
+			.where("items.status = :status", { status: params.status ? params.status : true });
 		if (params.search) {
 			items.andWhere(
 				new Brackets((qb) => {

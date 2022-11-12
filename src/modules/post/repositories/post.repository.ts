@@ -8,7 +8,7 @@ export class PostRepository extends Repository<PostEntity> {
 	async getPosts(params: GetPostsDto): Promise<ResponsePagination<PostEntity>> {
 		const posts = this.createQueryBuilder("posts").where(
 			"posts.status = :status",
-			{ status: true }
+			{ status: params.status ? params.status : true }
 		);
 		if (params.search) {
 			posts.andWhere("posts.name ilike :name", {

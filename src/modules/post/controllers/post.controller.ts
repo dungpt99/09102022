@@ -64,6 +64,13 @@ export class PostController {
     return await this.postService.update(id, updatePostDto, file);
   }
 
+  @Put("recover/:id")
+  async updateRecover(
+    @Param("id", ParseUUIDPipe) id: string,
+  ): Promise<any> {
+    return await this.postService.updateRecover(id);
+  }
+
   @Delete(":id")
   async delete(@Param("id", ParseUUIDPipe) id: string) {
     return await this.postService.delete(id);
