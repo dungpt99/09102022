@@ -79,6 +79,13 @@ export class ItemController {
     return await this.itemService.update(id, updateItemDto, files);
   }
 
+  @Put("recover/:id")
+  async updateRecover(
+    @Param("id", ParseUUIDPipe) id: string,
+  ): Promise<ItemEntity> {
+    return await this.itemService.updateRecover(id);
+  }
+
   @Delete(":id")
   async delete(@Param("id", ParseUUIDPipe) id: string) {
     return await this.itemService.delete(id);

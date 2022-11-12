@@ -44,6 +44,19 @@ export class CategoryService {
 		}
 	}
 
+	async updateRecover(id: string) {
+		try {
+			let getCategory = await this.categoryRepository.findOne({
+				id,
+				status: false,
+			});
+			getCategory.status = true;
+			return await this.categoryRepository.save(getCategory);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async findAll(
 		params: GetCategoriesDto
 	): Promise<ResponsePagination<CategoryEntity>> {
@@ -62,7 +75,7 @@ export class CategoryService {
 				.leftJoinAndSelect("category.items", "items")
 				.where("category.id = :id", { id })
 				.andWhere("category.status = :status", { status: true })
-				// .andWhere("items.status = :status", { status: true })
+				.andWhere("items.status = :status", { status: true })
 				.getOne();
 			if (!getCategory) {
 				throw new NotFoundException();

@@ -57,6 +57,16 @@ export class PostService {
 		}
 	}
 
+	async updateRecover(id: string) {
+		try {
+			let getPost = await this.postRepository.findOne({ id, status: false });
+			getPost.status = true;
+			return await this.postRepository.save(getPost);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async findAll(params: GetPostsDto): Promise<ResponsePagination<PostEntity>> {
 		try {
 			return await this.postRepository.getPosts(params);

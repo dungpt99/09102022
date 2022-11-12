@@ -62,6 +62,13 @@ export class CategoryController {
 		return await this.categoryService.update(id, updateCategoryDto);
 	}
 
+	@Put("recover/:id")
+	async updateRecover(
+		@Param("id", ParseUUIDPipe) id: string
+	): Promise<CategoryEntity> {
+		return await this.categoryService.updateRecover(id);
+	}
+
 	@Delete(":id")
 	async delete(@Param("id", ParseUUIDPipe) id: string) {
 		return await this.categoryService.delete(id);

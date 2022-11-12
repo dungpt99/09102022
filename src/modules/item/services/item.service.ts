@@ -71,6 +71,16 @@ export class ItemService {
 		}
 	}
 
+	async updateRecover(id: string) {
+		try {
+			let getItem = await this.itemRepository.findOne({ id, status: false });
+			getItem.status = true;
+			return await this.itemRepository.save(getItem);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async findAll(params: GetItemsDto): Promise<ResponsePagination<ItemEntity>> {
 		try {
 			return await this.itemRepository.getItems(params);
