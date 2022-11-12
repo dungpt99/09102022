@@ -17,7 +17,7 @@ export class CategoryEntity {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
 
-	@Column({ name: "name", type: "varchar", length: 20 })
+	@Column({ name: "name", type: "varchar", length: 56 })
 	name: string;
 
 	@Column({ name: "status", type: "boolean", default: true })

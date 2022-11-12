@@ -17,10 +17,10 @@ export class ItemEntity {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
 
-	@Column({ name: "model", type: "varchar", length: 20 })
+	@Column({ name: "model", type: "varchar", length: 56 })
 	model: string;
 
-	@Column({ name: "price", type: "varchar", length: 20 })
+	@Column({ name: "price", type: "varchar", length: 15 })
 	price: string;
 
 	@ManyToOne(() => CategoryEntity, (category) => category.items)
@@ -36,7 +36,7 @@ export class ItemEntity {
 	@Column({ name: "status", type: "boolean", default: true })
 	status: boolean;
 
-	@Column({ name: "description", type: "varchar", length: 500 })
+	@Column({ name: "description", type: "varchar", length: 3200 })
 	description: string;
 
 	@Column({ name: "img_item", type: "varchar", length: 500 })

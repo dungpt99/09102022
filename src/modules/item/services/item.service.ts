@@ -96,7 +96,7 @@ export class ItemService {
 				where: { id: Not(id), status: true },
 				relations: ["category"],
 				order: { createdAt: "DESC" },
-				take: 1,
+				take: 12,
 			});
 			return { item: getItem, relation: getRelationItems };
 		} catch (error) {

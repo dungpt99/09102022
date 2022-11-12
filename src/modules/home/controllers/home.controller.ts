@@ -2,6 +2,8 @@ import { Controller, Get, Param, ParseUUIDPipe, Query } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ResponsePagination } from "src/common/dto/response-pagination.dto";
 import { Public } from "src/modules/Auth/enableAuthPublic";
+import { GetCategoriesDto } from "src/modules/category/dto/list-category.dto";
+import { CategoryEntity } from "src/modules/category/entities/category.entity";
 import { GetItemsDto } from "src/modules/item/dto/list-item.dto";
 import { ItemEntity } from "src/modules/item/entities/item.entity";
 import { GetPostsDto } from "src/modules/post/dto/list-post.dto";
@@ -39,5 +41,19 @@ export class HomeController {
     @Param("id", ParseUUIDPipe) id: string
   ): Promise<ItemEntity> {
     return await this.homeService.findByIdItem(id);
+  }
+
+  @Get("categories")
+  public async findAllCategory(
+    @Query() getCategoriesDto: GetCategoriesDto
+  ): Promise<ResponsePagination<CategoryEntity>> {
+    return await this.homeService.findAllCategory(getCategoriesDto);
+  }
+
+  @Get("category/:id")
+  public async findOneCategory(
+    @Param("id", ParseUUIDPipe) id: string
+  ): Promise<CategoryEntity> {
+    return await this.homeService.findByIdCategory(id);
   }
 }
