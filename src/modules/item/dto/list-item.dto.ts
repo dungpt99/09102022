@@ -8,4 +8,7 @@ export class GetItemsDto extends CommonPaginationDto {
 
 	@ApiProperty({ required: false })
 	status?: Boolean;
+
+	@ApiProperty({ required: false })
+	categoryId?: string;
 }

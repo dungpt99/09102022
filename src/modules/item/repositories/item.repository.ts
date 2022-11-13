@@ -23,6 +23,9 @@ export class ItemRepository extends Repository<ItemEntity> {
 		if (params.order) {
 			items.orderBy("items.createdAt", params.order);
 		}
+		if (params.categoryId) {
+			items.andWhere("category.id = :id", { id: params.categoryId });
+		}
 		return CommonPagination(params, items);
 	}
 }
