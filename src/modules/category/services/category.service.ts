@@ -79,15 +79,6 @@ export class CategoryService {
 			if (!getCategory) {
 				throw new NotFoundException();
 			}
-			if (getCategory.items.length !== 0) {
-				return await this.categoryRepository
-				.createQueryBuilder("category")
-				.leftJoinAndSelect("category.items", "items")
-				.where("category.id = :id", { id })
-				.andWhere("category.status = :status", { status: true })
-				.andWhere("items.status = :status", { status: true })
-				.getOne();
-			}
 			return getCategory;
 		} catch (error) {
 			this.logger.log(error.toString());
